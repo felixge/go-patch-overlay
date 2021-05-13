@@ -7,3 +7,5 @@ Assuming you have a directory of [patches](./example/goroutineid/patches) to app
 ```
 $ go build -overlay="$(go-patch-overlay ./patches)"
 ```
+
+This will work for patches aimed at the runtime or stdlib. It won't work for the compiler/linker.
