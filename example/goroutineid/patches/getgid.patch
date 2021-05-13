@@ -1,0 +1,16 @@
+diff --git a/src/runtime/stubs.go b/src/runtime/stubs.go
+index 2ee2c74dfe..afec8b5e52 100644
+--- a/src/runtime/stubs.go
++++ b/src/runtime/stubs.go
+@@ -17,6 +17,11 @@ func add(p unsafe.Pointer, x uintptr) unsafe.Pointer {
+ // that fetch the g directly (from TLS or from the dedicated register).
+ func getg() *g
+ 
++// Getid returns the current goroutine id.
++func Getgid() int64 {
++	return getg().goid
++}
++
+ // mcall switches from the g to the g0 stack and invokes fn(g),
+ // where g is the goroutine that made the call.
+ // mcall saves g's current PC/SP in g->sched so that it can be restored later.
