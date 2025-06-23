@@ -1,0 +1,33 @@
+name: Unit tests
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: 'stable'
+
+      - name: Install toolchains for testing
+        run: |
+          # For unit tests
+          go install golang.org/dl/go1.24.4@latest
+          go1.24.4 download
+          # For the example
+          go install golang.org/dl/go1.16@latest
+          go1.16 download
+
+      - name: Run unit tests
+        run: go test -v
+
+      - name: Build and run example
+        run: |
+          go build
+          cd ./example/goroutineid
+          go1.16 build -overlay=$(../../go-patch-overlay -go=go1.16 ./patches/getgid.patch)
+          ./goroutineid
